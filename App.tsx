@@ -5,8 +5,10 @@ import { searchBeatsWithAI } from './services/geminiService';
 import { Navbar } from './components/Navbar';
 import { Player } from './components/Player';
 import { LyricGenie } from './components/LyricGenie';
+import { LoginSplash } from './components/LoginSplash';
 
 const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -77,8 +79,12 @@ const App: React.FC = () => {
 
   const subtotal = cart.reduce((acc, item) => acc + item.price, 0);
 
+  if (!isAuthenticated) {
+    return <LoginSplash onLogin={() => setIsAuthenticated(true)} />;
+  }
+
   return (
-    <div className="min-h-screen bg-black text-zinc-100 font-sans pb-32">
+    <div className="min-h-screen bg-black text-zinc-100 font-sans pb-32 animate-fade-in-up" style={{ animationDuration: '0.5s', animationDelay: '0s' }}>
       
       <Navbar onCartClick={() => setIsCartOpen(true)} cartCount={cart.length} />
 

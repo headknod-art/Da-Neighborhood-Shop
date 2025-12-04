@@ -20,6 +20,38 @@
           -ms-overflow-style: none;
           scrollbar-width: none;
        }
+       
+       /* Splash Animations */
+       @keyframes slideInLeft {
+         0% {
+           transform: translateX(-100%);
+           opacity: 0;
+         }
+         100% {
+           transform: translateX(0);
+           opacity: 1;
+         }
+       }
+       
+       @keyframes fadeInUp {
+         0% {
+           transform: translateY(20px);
+           opacity: 0;
+         }
+         100% {
+           transform: translateY(0);
+           opacity: 1;
+         }
+       }
+
+       .animate-slide-in-left {
+         animation: slideInLeft 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+       }
+
+       .animate-fade-in-up {
+         animation: fadeInUp 0.8s ease-out 0.5s forwards; /* Delayed slightly so character starts moving first */
+         opacity: 0; /* Initial state before animation starts */
+       }
     </style>
   <script type="importmap">
 {
