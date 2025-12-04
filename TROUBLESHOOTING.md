@@ -410,6 +410,165 @@ npm run build           # Production build
 npm run test           # Run tests
 ```
 
+## Issue: Frontend Shows Black Screen / React Not Rendering
+
+**Symptoms:**
+- Frontend returns HTTP 200 but displays only a black screen
+- No React components rendering
+- No JavaScript errors in console
+- Page HTML loads but React app doesn't mount
+
+**Root Cause:**
+The `index.html` file is missing the module script tag that loads the React application entry point (`index.tsx`). Vite requires this script tag to inject the React app into the DOM.
+
+**Solution:**
+
+1. **Add the script tag to index.html:**
+```html
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+```
+
+2. **Verify the fix:**
+```bash
+# Check if index.tsx is being served
+curl -s http://localhost:3000/index.tsx | head -20
+
+# Should see transformed JavaScript, not an error
+```
+
+3. **Restart the frontend container:**
+```bash
+docker-compose restart frontend
+```
+
+**Why This Happens:**
+- Vite dev server expects `index.html` to explicitly import the application entry point
+- Without this script tag, the HTML loads but React never initializes
+- The `<div id="root">` remains empty, showing only the black background
+
+**Verification Steps:**
+1. Open http://localhost:3000 in browser
+2. Open DevTools Console (F12)
+3. Should see no errors
+4. Should see React DevTools icon if installed
+5. Page should display the LoginSplash component (black background with centered login form)
+
+**Related Issues:**
+- If you see a 500 error instead, check Tailwind CSS configuration
+- If login form is invisible but present, check CSS is loading correctly
+
+---
+
+## Issue: Frontend Shows Black Screen / React Not Rendering
+
+**Symptoms:**
+- Frontend returns HTTP 200 but displays only a black screen
+- No React components rendering
+- No JavaScript errors in console
+- Page HTML loads but React app doesn't mount
+
+**Root Cause:**
+The `index.html` file is missing the module script tag that loads the React application entry point (`index.tsx`). Vite requires this script tag to inject the React app into the DOM.
+
+**Solution:**
+
+1. **Add the script tag to index.html:**
+```html
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+```
+
+2. **Verify the fix:**
+```bash
+# Check if index.tsx is being served
+curl -s http://localhost:3000/index.tsx | head -20
+
+# Should see transformed JavaScript, not an error
+```
+
+3. **Restart the frontend container:**
+```bash
+docker-compose restart frontend
+```
+
+**Why This Happens:**
+- Vite dev server expects `index.html` to explicitly import the application entry point
+- Without this script tag, the HTML loads but React never initializes
+- The `<div id="root">` remains empty, showing only the black background
+
+**Verification Steps:**
+1. Open http://localhost:3000 in browser
+2. Open DevTools Console (F12)
+3. Should see no errors
+4. Should see React DevTools icon if installed
+5. Page should display the LoginSplash component (black background with centered login form)
+
+**Related Issues:**
+- If you see a 500 error instead, check Tailwind CSS configuration
+- If login form is invisible but present, check CSS is loading correctly
+
+---
+
+## Issue: Frontend Shows Black Screen / React Not Rendering
+
+**Symptoms:**
+- Frontend returns HTTP 200 but displays only a black screen
+- No React components rendering
+- No JavaScript errors in console
+- Page HTML loads but React app doesn't mount
+
+**Root Cause:**
+The `index.html` file is missing the module script tag that loads the React application entry point (`index.tsx`). Vite requires this script tag to inject the React app into the DOM.
+
+**Solution:**
+
+1. **Add the script tag to index.html:**
+```html
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+```
+
+2. **Verify the fix:**
+```bash
+# Check if index.tsx is being served
+curl -s http://localhost:3000/index.tsx | head -20
+
+# Should see transformed JavaScript, not an error
+```
+
+3. **Restart the frontend container:**
+```bash
+docker-compose restart frontend
+```
+
+**Why This Happens:**
+- Vite dev server expects `index.html` to explicitly import the application entry point
+- Without this script tag, the HTML loads but React never initializes
+- The `<div id="root">` remains empty, showing only the black background
+
+**Verification Steps:**
+1. Open http://localhost:3000 in browser
+2. Open DevTools Console (F12)
+3. Should see no errors
+4. Should see React DevTools icon if installed
+5. Page should display the LoginSplash component (black background with centered login form)
+
+**Related Issues:**
+- If you see a 500 error instead, check Tailwind CSS configuration
+- If login form is invisible but present, check CSS is loading correctly
+
+**Automated Fix:**
+The startup script (`start.sh`) now automatically checks for this issue and adds the script tag if missing.
+
+---
+
 ## Common Issues Summary
 
 | Issue | Quick Fix |
@@ -422,6 +581,7 @@ npm run test           # Run tests
 | Missing env vars | Copy .env.example files |
 | Old dependencies | Remove node_modules and reinstall |
 | Tailwind errors | Install tailwindcss@3.4.18 |
+| Black screen on frontend | Add `<script type="module" src="/index.tsx"></script>` to index.html |
 | Changes not showing | `docker-compose restart <service>` |
 | Complete failure | Follow "Complete Environment Reset" |
 

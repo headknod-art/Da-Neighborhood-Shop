@@ -83,6 +83,27 @@ fi
 echo -e "${GREEN}✅ All dependencies ready${NC}"
 echo ""
 
+echo -e "${BLUE}🔍 Verifying frontend configuration...${NC}"
+
+# Check if index.html has the required script tag for Vite
+if ! grep -q '<script type="module" src="/index.tsx"></script>' index.html; then
+  echo -e "${YELLOW}⚠️  index.html missing React entry point script tag${NC}"
+  echo -e "${BLUE}Adding <script type='module' src='/index.tsx'></script> to index.html...${NC}"
+  
+  # Add script tag before closing body tag if it doesn't exist
+  if grep -q '</body>' index.html; then
+    sed -i 's|</body>|    <script type="module" src="/index.tsx"></script>\n  </body>|' index.html
+    echo -e "${GREEN}✅ Script tag added to index.html${NC}"
+  else
+    echo -e "${RED}❌ Could not locate </body> tag in index.html${NC}"
+    echo -e "${YELLOW}⚠️  Please manually add: <script type='module' src='/index.tsx'></script>${NC}"
+  fi
+else
+  echo -e "${GREEN}✅ index.html is properly configured${NC}"
+fi
+
+echo ""
+
 # Clean up old containers if they exist
 echo -e "${BLUE}🧹 Cleaning up any existing containers...${NC}"
 docker-compose down --remove-orphans 2>/dev/null || true
@@ -134,6 +155,23 @@ done
 if [ $attempt -eq $max_attempts ]; then
   echo -e "${RED}⚠️  Backend is taking longer than expected${NC}"
   echo -e "${YELLOW}This is okay - it may still be initializing${NC}"
+fi
+
+# Check frontend is responding
+attempt=0
+while [ $attempt -lt 10 ]; do
+  if curl -f http://localhost:3000 > /dev/null 2>&1; then
+    echo -e "${GREEN}✅ Frontend is ready${NC}"
+    break
+  fi
+  attempt=$((attempt + 1))
+  echo -e "${YELLOW}⏳ Frontend starting... ($attempt/10)${NC}"
+  sleep 2
+done
+
+if [ $attempt -eq 10 ]; then
+  echo -e "${RED}⚠️  Frontend is taking longer than expected${NC}"
+  echo -e "${YELLOW}Check logs with: docker-compose logs frontend${NC}"
 fi
 
 echo ""

@@ -36,7 +36,7 @@ export const LoginSplash: React.FC<LoginSplashProps> = ({ onLogin }) => {
         </div>
 
         {/* Login Container - Positioned to look like character is leaning on it */}
-        <div className="relative z-20 bg-zinc-950/90 backdrop-blur-md border border-zinc-800 p-8 md:p-12 w-full max-w-md shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-fade-in-up md:ml-[300px] lg:ml-[400px]">
+        <div className="relative z-20 bg-zinc-950/90 backdrop-blur-md border-4 border-yellow-400 p-8 md:p-12 w-full max-w-md shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-fade-in-up md:ml-[300px] lg:ml-[400px]">
            {/* Decorative Corners */}
            <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-yellow-400"></div>
            <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-yellow-400"></div>
