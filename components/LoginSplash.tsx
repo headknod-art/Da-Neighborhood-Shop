@@ -51,7 +51,7 @@ export const LoginSplash: React.FC<LoginSplashProps> = ({ onLogin }) => {
       <div className="absolute top-10 right-10 w-20 h-20 rounded-full bg-zinc-900 border-2 border-yellow-400/50 z-0"></div>
 
       {/* Back City Layer (Slow) */}
-      <div className="absolute bottom-0 left-0 w-[200%] h-[40%] flex items-end opacity-40 animate-scroll-slow z-1">
+      <div className="absolute bottom-0 left-0 w-[200%] h-[40%] flex items-end opacity-40 animate-scroll-slow z-0">
           {Array.from({ length: 20 }).map((_, i) => {
               const height = 20 + Math.random() * 40; // 20-60% height
               const width = 5 + Math.random() * 10;   // 5-15% width
@@ -65,7 +65,7 @@ export const LoginSplash: React.FC<LoginSplashProps> = ({ onLogin }) => {
       </div>
 
       {/* Front Neighborhood Layer (Fast) */}
-      <div className="absolute bottom-0 left-0 w-[200%] h-[35%] flex items-end animate-scroll-fast z-2">
+      <div className="absolute bottom-0 left-0 w-[200%] h-[35%] flex items-end animate-scroll-fast z-10">
           {Array.from({ length: 15 }).map((_, i) => {
               // Alternate between houses and small apartments
               const isHouse = i % 2 === 0;
@@ -105,7 +105,7 @@ export const LoginSplash: React.FC<LoginSplashProps> = ({ onLogin }) => {
       <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black to-transparent z-10"></div>
 
       {/* --- Login Container --- */}
-      <div className="relative z-20 bg-black/80 backdrop-blur-md border border-zinc-800 p-8 md:p-12 w-full max-w-md shadow-[0_0_80px_rgba(250,204,21,0.15)] animate-fade-in-up">
+      <div className="relative z-20 bg-black/90 backdrop-blur-xl border border-zinc-800 p-8 md:p-12 w-full max-w-md shadow-[0_0_80px_rgba(250,204,21,0.1)] animate-fade-in-up">
            {/* Decorative Corners */}
            <div className="absolute -top-1 -left-1 w-6 h-6 border-t-2 border-l-2 border-yellow-400"></div>
            <div className="absolute -bottom-1 -right-1 w-6 h-6 border-b-2 border-r-2 border-yellow-400"></div>
@@ -114,43 +114,50 @@ export const LoginSplash: React.FC<LoginSplashProps> = ({ onLogin }) => {
               <div className="inline-block mb-4 p-4 rounded-full border border-yellow-400/20 bg-yellow-400/5">
                  <img src="https://i.imgur.com/jWk7v0m.png" alt="Logo" className="h-16 w-auto mx-auto invert opacity-90" />
               </div>
-              <h1 className="text-4xl font-bold text-white uppercase tracking-tighter mb-2 leading-none">Restricted<br/><span className="text-yellow-400">Access</span></h1>
-              <p className="text-zinc-500 text-[10px] uppercase tracking-[0.3em]">Da Neighborhood Portal</p>
+              <h1 className="text-3xl font-bold text-white uppercase tracking-tighter mb-2 leading-none">Resident<br/><span className="text-yellow-400">Verification</span></h1>
+              <p className="text-zinc-500 text-[10px] uppercase tracking-[0.3em]">Da Neighborhood H.O.A.</p>
            </div>
 
            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="group">
-                 <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2 group-focus-within:text-yellow-400 transition-colors">Codename</label>
+                 <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2 group-focus-within:text-yellow-400 transition-colors">Assigned Lot #</label>
                  <input 
                     type="text" 
                     value={codename}
                     onChange={(e) => setCodename(e.target.value)}
-                    className="w-full bg-black/60 border border-zinc-800 text-white px-4 py-3 text-sm focus:border-yellow-400 focus:outline-none transition-colors placeholder-zinc-700 font-mono"
-                    placeholder="ENTER ID..."
+                    className="w-full bg-zinc-950 border border-zinc-800 text-white px-4 py-3 text-sm focus:border-yellow-400 focus:outline-none transition-colors placeholder-zinc-700 font-mono"
+                    placeholder="LOT-1049"
                     autoFocus
                  />
               </div>
               <div className="group">
-                 <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2 group-focus-within:text-yellow-400 transition-colors">Passkey</label>
+                 <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2 group-focus-within:text-yellow-400 transition-colors">Gate Access Code</label>
                  <input 
                     type="password" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-black/60 border border-zinc-800 text-white px-4 py-3 text-sm focus:border-yellow-400 focus:outline-none transition-colors placeholder-zinc-700 font-mono"
-                    placeholder="••••••••"
+                    className="w-full bg-zinc-950 border border-zinc-800 text-white px-4 py-3 text-sm focus:border-yellow-400 focus:outline-none transition-colors placeholder-zinc-700 font-mono"
+                    placeholder="••••"
                  />
+              </div>
+
+              <div className="flex items-center gap-2 mb-4">
+                 <div className="h-4 w-4 border border-zinc-700 bg-zinc-900 flex items-center justify-center">
+                    <div className="h-2 w-2 bg-yellow-400"></div>
+                 </div>
+                 <span className="text-[10px] text-zinc-400 uppercase tracking-wide">I agree to the HOA Noise Bylaws</span>
               </div>
 
               <button 
                 type="submit"
-                className="w-full bg-yellow-400 text-black font-bold uppercase py-4 tracking-widest hover:bg-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 mt-2 border-2 border-yellow-400 hover:border-white"
+                className="w-full bg-yellow-400 text-black font-bold uppercase py-4 tracking-widest hover:bg-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 border-2 border-yellow-400 hover:border-white"
               >
-                Enter Neighborhood
+                Access Portal
               </button>
            </form>
            
            <div className="mt-8 text-center border-t border-zinc-800 pt-6">
-              <p className="text-[10px] text-zinc-600 uppercase font-mono">Secure Connection // Encrypted v2.4</p>
+              <p className="text-[10px] text-zinc-600 uppercase font-mono">Restricted Area // Residents Only</p>
            </div>
         </div>
     </div>

@@ -6,6 +6,7 @@ import { Navbar } from './components/Navbar';
 import { Player } from './components/Player';
 import { LyricGenie } from './components/LyricGenie';
 import { LoginSplash } from './components/LoginSplash';
+import { HeroAnimation } from './components/HeroAnimation';
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -92,31 +93,27 @@ const App: React.FC = () => {
         
         {/* Hero Section */}
         <div className="mb-12 relative group cursor-pointer overflow-hidden border border-zinc-800 hover:border-yellow-400 transition-colors duration-500">
-           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent z-10 pointer-events-none"></div>
+           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent z-10 pointer-events-none"></div>
            <div className="grid md:grid-cols-2 bg-zinc-900">
               <div className="p-8 md:p-12 flex flex-col justify-center relative z-20">
-                  <span className="text-yellow-400 font-bold tracking-widest uppercase mb-4 text-xs">// New Collection Drop</span>
+                  <span className="text-yellow-400 font-bold tracking-widest uppercase mb-4 text-xs">// Official HOA Notice</span>
                   <h1 className="text-5xl md:text-7xl font-bold text-white uppercase leading-none mb-6">
-                    Love Thy<br/>Neighbor
+                    Mandatory<br/>Vibing
                   </h1>
                   <p className="text-zinc-400 mb-8 max-w-md">
-                    Premium beats curated for the neighborhood. Straight from the underground to your DAW.
+                    The Neighborhood Board has approved a new collection of sonic assets. Compliance is mandatory for all residents.
                   </p>
                   <div className="flex gap-4">
                      <button className="px-8 py-3 bg-white text-black font-bold uppercase tracking-wider hover:bg-yellow-400 transition-colors">
-                        Shop All
+                        Inspect Assets
                      </button>
                      <button className="px-8 py-3 border border-zinc-600 text-white font-bold uppercase tracking-wider hover:border-yellow-400 hover:text-yellow-400 transition-colors">
-                        Read Story
+                        Read Bylaws
                      </button>
                   </div>
               </div>
-              <div className="relative h-64 md:h-auto overflow-hidden">
-                 <img 
-                    src="https://i.imgur.com/u7y1dG5.png" 
-                    alt="Love Thy Neighbor" 
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                 />
+              <div className="relative h-64 md:h-auto overflow-hidden bg-zinc-950">
+                 <HeroAnimation />
               </div>
            </div>
         </div>
@@ -137,7 +134,7 @@ const App: React.FC = () => {
                             ? 'bg-yellow-400 text-black border-yellow-400' 
                             : 'bg-black text-zinc-500 border-zinc-800 hover:border-zinc-500 hover:text-white'}`}
                       >
-                        {cat}
+                        {cat === 'All' ? 'All Zones' : cat}
                       </button>
                     ))}
                  </div>
@@ -147,7 +144,7 @@ const App: React.FC = () => {
               <form onSubmit={handleAiSearch} className="w-full md:w-auto relative group">
                  <input 
                     type="text" 
-                    placeholder="DESCRIBE THE VIBE..." 
+                    placeholder="SEARCH ZONING PERMITS..." 
                     className="w-full md:w-80 bg-black border border-zinc-800 text-white placeholder-zinc-600 px-4 py-2 uppercase text-sm font-bold focus:outline-none focus:border-yellow-400 transition-colors"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -173,7 +170,7 @@ const App: React.FC = () => {
         <div>
            <div className="flex justify-between items-end mb-6">
               <h2 className="text-2xl font-bold text-white uppercase tracking-tight">
-                 {activeCategory === 'All' && !searchQuery ? 'Latest Drops' : 'Search Results'}
+                 {activeCategory === 'All' && !searchQuery ? 'Approved Community Assets' : 'Permit Search Results'}
                  <span className="text-yellow-400 text-sm ml-2 align-middle">({beats.length})</span>
               </h2>
            </div>
@@ -181,6 +178,7 @@ const App: React.FC = () => {
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-8">
               {beats.map(beat => {
                  const isPlayingThis = currentBeat?.id === beat.id && isPlaying;
+                 const isInCart = cart.some(i => i.id === beat.id);
                  
                  return (
                     <div key={beat.id} className="group flex flex-col">
@@ -195,9 +193,9 @@ const App: React.FC = () => {
                            {/* Overlay Actions */}
                            <div className="absolute inset-0 bg-black/20 flex flex-col justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                               <div className="flex justify-end">
-                                 <button onClick={() => setLyricBeat(beat)} className="p-2 bg-black text-white hover:text-yellow-400 border border-zinc-700 hover:border-yellow-400 transition-colors" title="Generate Lyrics">
+                                 <button onClick={() => setLyricBeat(beat)} className="p-2 bg-black text-white hover:text-yellow-400 border border-zinc-700 hover:border-yellow-400 transition-colors" title="Request Lyric Permit">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                     </svg>
                                  </button>
                               </div>
@@ -229,18 +227,28 @@ const App: React.FC = () => {
                               <h3 className="font-bold text-white text-lg leading-tight uppercase truncate cursor-pointer hover:text-yellow-400 transition-colors" onClick={() => handlePlayToggle(beat)}>{beat.title}</h3>
                               <p className="text-zinc-500 text-xs font-bold uppercase tracking-wider">{beat.producer}</p>
                            </div>
-                           <span className="text-yellow-400 font-bold">${beat.price}</span>
+                           <div className="text-right">
+                             <span className="text-yellow-400 font-bold block">${beat.price}</span>
+                             <span className="text-[9px] text-zinc-600 uppercase">HOA Fee</span>
+                           </div>
                         </div>
 
                         {/* Add Button */}
                         <button 
                           onClick={() => handleAddToCart(beat)}
-                          className={`mt-3 w-full py-3 text-xs font-bold uppercase tracking-widest border transition-all duration-200
-                             ${cart.some(i => i.id === beat.id) 
+                          className={`mt-3 w-full py-3 text-xs font-bold uppercase tracking-widest border transition-all duration-200 flex items-center justify-center gap-2
+                             ${isInCart
                                ? 'bg-white text-black border-white' 
                                : 'bg-transparent text-zinc-400 border-zinc-800 hover:border-yellow-400 hover:text-yellow-400'}`}
                         >
-                          {cart.some(i => i.id === beat.id) ? 'In Cart' : 'Add to Cart'}
+                          {isInCart ? (
+                            <>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                                Fee Added
+                            </>
+                          ) : 'Pay Permit Fee'}
                         </button>
                     </div>
                  );
@@ -249,8 +257,8 @@ const App: React.FC = () => {
            
            {beats.length === 0 && (
               <div className="py-32 text-center border border-zinc-800 border-dashed">
-                 <h3 className="text-2xl font-bold text-white uppercase mb-2">No beats found</h3>
-                 <p className="text-zinc-500">Try a different vibe query.</p>
+                 <h3 className="text-2xl font-bold text-white uppercase mb-2">Zone Restricted</h3>
+                 <p className="text-zinc-500">No approved assets found for this classification.</p>
               </div>
            )}
         </div>
@@ -266,7 +274,10 @@ const App: React.FC = () => {
           ></div>
           <div className="relative w-full max-w-md bg-zinc-950 border-l border-zinc-800 h-full flex flex-col shadow-2xl">
              <div className="p-6 border-b border-zinc-800 flex items-center justify-between bg-black">
-                <h2 className="text-2xl font-bold text-white uppercase">Your Cart</h2>
+                <div className="flex flex-col">
+                    <h2 className="text-2xl font-bold text-white uppercase">HOA Statement</h2>
+                    <span className="text-[10px] text-zinc-500 uppercase tracking-widest">Monthly Dues & Assessments</span>
+                </div>
                 <button onClick={() => setIsCartOpen(false)} className="text-zinc-500 hover:text-white">
                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -277,8 +288,13 @@ const App: React.FC = () => {
              <div className="flex-1 overflow-y-auto p-6 space-y-4">
                 {cart.length === 0 ? (
                   <div className="h-full flex flex-col items-center justify-center text-zinc-500">
-                    <p className="uppercase tracking-widest font-bold text-sm">Cart is empty</p>
-                    <button onClick={() => setIsCartOpen(false)} className="mt-4 text-yellow-400 hover:text-white underline decoration-yellow-400 decoration-2 underline-offset-4">Continue Shopping</button>
+                    <div className="h-16 w-16 mb-4 border-2 border-dashed border-zinc-800 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <p className="uppercase tracking-widest font-bold text-sm">No Outstanding Fees</p>
+                    <button onClick={() => setIsCartOpen(false)} className="mt-4 text-yellow-400 hover:text-white underline decoration-yellow-400 decoration-2 underline-offset-4 uppercase text-xs font-bold">Review Listings</button>
                   </div>
                 ) : (
                   cart.map(item => (
@@ -287,11 +303,11 @@ const App: React.FC = () => {
                        <div className="flex-1 flex flex-col justify-between py-1">
                           <div>
                              <h4 className="text-white font-bold uppercase leading-none">{item.title}</h4>
-                             <p className="text-[10px] text-zinc-500 uppercase mt-1">Standard License</p>
+                             <p className="text-[10px] text-zinc-500 uppercase mt-1">Noise Permit (Class A)</p>
                           </div>
                           <div className="flex justify-between items-end">
                              <span className="text-yellow-400 font-bold">${item.price}</span>
-                             <button onClick={() => handleRemoveFromCart(item.id)} className="text-zinc-600 hover:text-red-500 text-xs font-bold uppercase">Remove</button>
+                             <button onClick={() => handleRemoveFromCart(item.id)} className="text-zinc-600 hover:text-red-500 text-[10px] font-bold uppercase tracking-wider">Void</button>
                           </div>
                        </div>
                     </div>
@@ -301,12 +317,16 @@ const App: React.FC = () => {
 
              {cart.length > 0 && (
                 <div className="p-6 border-t border-zinc-800 bg-black">
-                   <div className="flex justify-between items-center mb-6 text-zinc-400 text-sm uppercase font-bold tracking-wider">
-                      <span>Total</span>
-                      <span className="text-white text-2xl">${subtotal.toFixed(2)}</span>
+                   <div className="flex justify-between items-center mb-2 text-zinc-400 text-sm uppercase font-bold tracking-wider">
+                      <span>Subtotal</span>
+                      <span className="text-white">${subtotal.toFixed(2)}</span>
+                   </div>
+                   <div className="flex justify-between items-center mb-6 text-zinc-600 text-[10px] uppercase font-bold tracking-wider">
+                      <span>Processing Fee</span>
+                      <span>$0.00</span>
                    </div>
                    <button className="w-full py-4 bg-yellow-400 text-black font-bold uppercase tracking-widest hover:bg-white transition-colors">
-                      Checkout
+                      Settle Balance
                    </button>
                 </div>
              )}
