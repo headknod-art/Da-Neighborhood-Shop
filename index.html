@@ -24,7 +24,7 @@
        /* Splash Animations */
        @keyframes slideInLeft {
          0% {
-           transform: translateX(-100%);
+           transform: translateX(-150%);
            opacity: 0;
          }
          100% {
@@ -44,13 +44,48 @@
          }
        }
 
+       @keyframes scrollCity {
+         from { transform: translateX(0); }
+         to { transform: translateX(-50%); }
+       }
+
+       @keyframes flicker {
+         0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+           opacity: 1;
+         }
+         20%, 24%, 55% {
+           opacity: 0.4;
+         }
+       }
+
+       @keyframes twinkle {
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.2); }
+       }
+
        .animate-slide-in-left {
-         animation: slideInLeft 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+         animation: slideInLeft 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
        }
 
        .animate-fade-in-up {
-         animation: fadeInUp 0.8s ease-out 0.5s forwards; /* Delayed slightly so character starts moving first */
-         opacity: 0; /* Initial state before animation starts */
+         animation: fadeInUp 0.8s ease-out 0.2s forwards;
+         opacity: 0;
+       }
+
+       .animate-scroll-slow {
+          animation: scrollCity 60s linear infinite;
+       }
+
+       .animate-scroll-fast {
+          animation: scrollCity 30s linear infinite;
+       }
+       
+       .animate-flicker {
+          animation: flicker 4s infinite random;
+       }
+       
+       .animate-twinkle {
+          animation: twinkle 3s infinite ease-in-out;
        }
     </style>
   <script type="importmap">
@@ -66,6 +101,5 @@
 </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
