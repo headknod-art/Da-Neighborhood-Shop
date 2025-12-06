@@ -1,5 +1,61 @@
 # Testing & Troubleshooting Guide
 
+## 📋 Recent Changes & Fixes Log
+
+### December 6, 2025 - Test Suite & Frontend Fixes
+
+#### Frontend Configuration
+- ✅ **Added missing script tag to index.html**
+  - Issue: React app was not mounting, showing only black screen
+  - Fix: Added `<script type="module" src="/index.tsx"></script>` to body
+  - Why: Vite requires explicit module import to mount React components
+  - Impact: Frontend now properly renders LoginSplash component
+
+#### Startup Script Enhancements
+- ✅ **Added frontend configuration verification**
+  - Automatically detects missing script tag in index.html
+  - Auto-adds the tag using sed if missing
+  - Provides clear feedback during startup process
+  - File: `start.sh` (lines 85-103)
+
+- ✅ **Added frontend readiness check**
+  - Waits up to 10 attempts for frontend to respond on http://localhost:3000
+  - Prevents premature service URL display before frontend is ready
+  - Graceful error handling if frontend takes longer to start
+
+#### Test Suite Fixes
+- ✅ **Fixed Navbar component test import**
+  - Changed from default import to named import: `import { Navbar }`
+  - Issue: Navbar was being exported as named export, not default export
+  - Fix: Updated `tests/Navbar.test.tsx` with correct import syntax
+  
+- ✅ **Added required props to Navbar tests**
+  - Navbar component requires `onCartClick` and `cartCount` props
+  - Added mock callback function for tests: `mockCartClick = () => {}`
+  - Both tests now pass required props to render method
+
+- ✅ **Installed missing test dependencies**
+  - Added: `@testing-library/react`
+  - Added: `@testing-library/jest-dom`
+  - Added: `jsdom` (for DOM simulation)
+  - These are required for React component testing with Vitest
+
+#### Current Test Status ✅
+```
+✅ App.test.tsx (2 tests passing)
+✅ Navbar.test.tsx (2 tests passing)
+📊 Total: 4/4 tests passing (100% pass rate)
+```
+
+#### Files Modified
+- `index.html` - Added script module tag for React app entry point
+- `start.sh` - Added configuration verification and frontend health checks
+- `tests/Navbar.test.tsx` - Fixed imports and added required props
+- `tests/App.test.tsx` - Now passing with correct setup
+- `TROUBLESHOOTING.md` - This changelog
+
+---
+
 ## Quick Start
 
 ### Using the Startup Script (Recommended)
@@ -12,10 +68,12 @@ The startup script automatically:
 - ✅ Verifies Docker is running
 - ✅ Creates environment files if missing
 - ✅ Checks and installs dependencies
+- ✅ **Verifies frontend configuration** (NEW)
 - ✅ Cleans up old containers
 - ✅ Builds and starts all services
 - ✅ Waits for database to be healthy
 - ✅ Waits for backend API to respond
+- ✅ **Waits for frontend to be ready** (NEW)
 - ✅ Displays service URLs and live logs
 
 ### Manual Startup
@@ -34,6 +92,10 @@ docker-compose logs -f
 npm run test              # Watch mode
 npm run test:run         # Single run
 ```
+
+**Test Files:**
+- `tests/App.test.tsx` - Main app component rendering
+- `tests/Navbar.test.tsx` - Navigation component functionality
 
 ### Backend Tests
 ```bash
