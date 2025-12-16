@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BEATS } from './constants';
+import { BEATS, DEFAULT_TWITCH_CHANNEL } from './constants';
 import { Beat, CartItem } from './types';
 import { Navbar } from './components/Navbar';
 import { Player } from './components/Player';
@@ -8,6 +8,7 @@ import { Home } from './components/Home';
 import { CornerStore } from './components/CornerStore';
 import { Mailbox } from './components/Mailbox';
 import { BookingSystem } from './components/BookingSystem';
+import { TwitchMonitor } from './components/TwitchMonitor';
 
 type ViewState = 'HOME' | 'STORE';
 
@@ -20,6 +21,7 @@ const App: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMailboxOpen, setIsMailboxOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isStreamOpen, setIsStreamOpen] = useState(false);
   const [currentBeat, setCurrentBeat] = useState<Beat | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -71,6 +73,7 @@ const App: React.FC = () => {
             onEnterStore={() => setCurrentView('STORE')} 
             onOpenMailbox={() => setIsMailboxOpen(true)}
             onOpenBooking={() => setIsBookingOpen(true)}
+            onOpenStream={() => setIsStreamOpen(true)}
           />
         ) : (
           <CornerStore 
@@ -92,6 +95,14 @@ const App: React.FC = () => {
       {/* Booking/Hearing Overlay */}
       {isBookingOpen && (
         <BookingSystem onClose={() => setIsBookingOpen(false)} />
+      )}
+
+      {/* Community Watch Overlay */}
+      {isStreamOpen && (
+        <TwitchMonitor 
+          channel={DEFAULT_TWITCH_CHANNEL}
+          onClose={() => setIsStreamOpen(false)}
+        />
       )}
 
       {/* Cart Sidebar (Global) */}

@@ -1,5 +1,8 @@
 import { Beat } from './types';
 
+// CONFIGURATION: Change this value to switch the live stream
+export const DEFAULT_TWITCH_CHANNEL = 'monstercat'; 
+
 export const BEATS: Beat[] = [
   {
     id: '1',
